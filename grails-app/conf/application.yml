@@ -1,0 +1,135 @@
+---
+grails:
+    profile: rest-api
+    codegen:
+        defaultPackage: dtp
+    spring:
+        transactionManagement:
+            proxies: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    groovy:
+        template:
+            check-template-location: false         
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+# it does not work so change to cors filter
+#---
+#grails:
+#    cors:
+#        enabled: true
+
+---
+grails:
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        types:
+            json:
+              - application/json
+              - text/json   
+            hal:
+              - application/hal+json
+              - application/hal+xml  
+            xml:
+              - text/xml
+              - application/xml                                 
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            js: text/javascript
+            rss: application/rss+xml
+            text: text/plain
+            all: '*/*'            
+    urlmapping:
+        cache:
+            maxsize: 1000
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+
+---
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: true
+        use_query_cache: false
+        region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+    naming_strategy: CustomNamingStrategy  
+    # format_sql: true      
+
+dataSource:
+    logSql: true
+    pooled: true
+    jmxExport: true
+    driverClassName: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+
+
+environments:
+    development:
+        dataSource:
+            dbCreate: update
+            url: jdbc:mysql://localhost:3306/dtp?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+            properties :
+              maxActive : 50
+              maxIdle : 25
+              minIdle : 1
+              initialSize : 1         
+              numTestsPerEvictionRun : 3
+              maxWait : 10000         
+              testOnBorrow : true
+              testWhileIdle : true
+              testOnReturn : true         
+              validationQuery : "select now()"         
+              minEvictableIdleTimeMillis : 300000
+              timeBetweenEvictionRunsMillis : 300000            
+    test:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:mysql://localhost:3306/dtp?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+            properties :
+              maxActive : 50
+              maxIdle : 25
+              minIdle : 1
+              initialSize : 1         
+              numTestsPerEvictionRun : 3
+              maxWait : 10000         
+              testOnBorrow : true
+              testWhileIdle : true
+              testOnReturn : true         
+              validationQuery : "select now()"         
+              minEvictableIdleTimeMillis : 300000
+              timeBetweenEvictionRunsMillis : 300000            
+    production:
+        dataSource:
+            dbCreate: update
+            url: jdbc:mysql://localhost:3306/prod?user=dev&password=dev&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+            properties :
+              maxActive : 50
+              maxIdle : 25
+              minIdle : 1
+              initialSize : 1         
+              numTestsPerEvictionRun : 3
+              maxWait : 10000         
+              testOnBorrow : true
+              testWhileIdle : true
+              testOnReturn : true         
+              validationQuery : "select now()"         
+              minEvictableIdleTimeMillis : 300000
+              timeBetweenEvictionRunsMillis : 300000   
